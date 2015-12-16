@@ -1,0 +1,13 @@
+[misc]
+
+[home]
+/home/fisk/CHANGES.txt
+/home/fisk/.vim
+/home/fisk/.vimrc
+/home/fisk/.safe
+/home/fisk/.epsilon
+
+[games]
+/home/fisk/Games/Halo
+
+[extra]
