@@ -6,12 +6,18 @@ from lib.mplib import *
 
 class TarPacker():
     def __init__(self):
-        self.mparser = ManifestParser("manifest.mf")
-        self.mparser.parseManifest()
-        print(self.mparser)
+        self.preProcess()
+
+    def modeManifest(self):
+        if args.status:
+            self.mparser = ManifestParser("manifest.mf")
+            self.mparser.parseManifest()
+            print(self.mparser)
 
     def preProcess(self):
-        pass
+        #determine the mode and run proper function
+        if args.subparser_name == "manifest":
+            self.modeManifest()
 
     def createBackup(self):
         pass
