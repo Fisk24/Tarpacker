@@ -1,7 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 
+## [Unreleased] -  
+
+### Added
+- Infrastructure for mode classes, every mode has its own module
+- Config class in "lib/config.py" now handles all user setting data
 
 ## [a0.0.1] - 2015-12-20
 
