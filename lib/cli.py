@@ -19,6 +19,7 @@ manifest.add_argument("--status", action="store_true", help="Show information ab
 packing = subparser.add_parser("pack")
 packing.add_argument("--man", "-m", action="store", help="Specifies manifest file to be loaded. Overrides value in the config file.")
 packing.add_argument("--location", "-l", action="store", help="Specifies directory to place archive files. Overrides value in the config file.")
+packing.add_argument("--section", action="store", help="List specific sections from the manifest to backup. Uses python list notation must be in quotes: ['section1','section2','section3']")
 packing.add_argument("--off-site", "-s", action="store", help="####NOT IMPLEMENTED#### Specify whether of not to send archive files to a server through ssh protocol. Overrides value in config file.")
 
 unpacking = subparser.add_parser("unpack")
