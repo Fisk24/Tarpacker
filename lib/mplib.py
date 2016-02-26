@@ -1,4 +1,5 @@
 import re
+from lib import logger
 
 class ManifestParser():
     def __init__(self, man):
@@ -8,11 +9,17 @@ class ManifestParser():
     def __str__(self):
         return self.printManifest()
 
+    def info(self):
+        logger.out("#==== Mainfest Info ====#")
+        logger.out("| {0:21} |".format(self.man))
+        logger.out("#=======================#")
+        self.printManifest()
+
     def printManifest(self):
         for key in self.data:
-            print(key+":")
+            logger.out(key+":")
             for i in self.data[key]:
-                print("\t"+i)
+                logger.out("\t"+i)
 
         return ""
 
