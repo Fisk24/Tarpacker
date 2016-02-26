@@ -1,9 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] -  
+## [UNRELEASED] - 
+
+## [a0.0.2] - 2016-02-25  
 
 ### Added
+- Packing mode is ready for use!
 - Infrastructure for mode classes, every mode has its own module
 - Config class in "lib/config.py" now handles all user setting data
 
