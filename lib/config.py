@@ -1,14 +1,17 @@
-import json, sys
+import json, sys, getpass
 
 class Config():
     def __init__(self, cfile):
         self.default = {
                 "conf_file":cfile,
+                "status": {
+                    "last":"Never"
+                    },
                 "packing"  :{
                     "location":"/home/fisk/BKUP-{date}"
                     },
                 "manifest" :{
-                    "file" :"manifest.mf"
+                    "file" :"/home/{user}/.config/tarpacker/manifest.mf".format(user=getpass.getuser())
                     },
                 "ssh":{
                     "user"  :"",

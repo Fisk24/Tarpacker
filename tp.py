@@ -8,20 +8,25 @@ from lib.mode.manifest import Manifest
 from lib.mode.pack     import Pack
 from lib.mode.unpack   import Unpack
 from lib.mode.config   import Config
+from lib.mode.setup    import Setup
 
 class TarPacker():
     def __init__(self):
-        #determine the mode and run proper function
+        # Try first time setup
+        setup = Setup()
+        # determine the mode and run proper function
         if args.subparser_name == "status":
             Status(args)
         elif args.subparser_name == "manifest":
             Manifest(args)
         elif args.subparser_name == "pack":
-            Pack(args)
+            Pack(args, setup)
         elif args.subparser_name == "unpack":
             Unpack(args)
         elif args.subparser_name == "config":
             Config(args)
+        else:
+            print("\nPlease pick a mode. Use --help for assistance\n")
 
 if __name__ == "__main__":
     main = TarPacker()

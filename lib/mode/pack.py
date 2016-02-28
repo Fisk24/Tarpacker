@@ -4,9 +4,9 @@ from lib.config import Config
 from lib.mplib  import ManifestParser
 
 class Pack():
-    def __init__(self, args):
+    def __init__(self, args, setup):
         # Create config object
-        self.conf = Config("settings.json")
+        self.conf = Config(setup.configdir+"/settings.json")
 
         # args... 
         self.args = args
@@ -15,14 +15,16 @@ class Pack():
         self.manifest = self.argsManifestFile()
         self.manifest.parseManifest()
         
-         # Directories
-        self.tmpdir  = "archives/"
-        self.extract = self.tmpdir+"extraction.csv"
+        # Directories
+        self.setup   = setup
+        self.tmpdir  = self.setup.archivedir
+        self.extract = self.setup.archivedir+"/extraction.csv"
         self.migrate = self.setMigrationLocation()
 
         # Process
         logger.tear()
         logger.out("Started packing mode...")
+        self.showStatusLast()
         self.argsNoAsk()
         self.argsManifestInfo()
         self.calculateTotalSize()
@@ -45,8 +47,10 @@ class Pack():
                         folders += 1
                     else:
                         files += 1
-
-        logger.out("Compressing {0} files and {1} folders into {2} archives...".format(files, folders, archives))
+        if files+folders:
+            logger.out("Compressing {0} files and {1} folders into {2} archives...".format(files, folders, archives))
+        else:
+            logger.out("Nothing to backup! For help adding files and folders, type \"tp manifest --help\"")
 
 
     def calculateTotalsPerSection(self):
@@ -76,6 +80,7 @@ class Pack():
                     logger.out("Skiping: {0}".format(tarname))
 
         logger.out("Finished!")
+        self.updateStatusLast()
 
     def migrateArchive(self, src):
         old = self.tmpdir+src
@@ -171,6 +176,17 @@ class Pack():
             y.append(i.strip())
 
         return y
+
+    def showStatusLast(self):
+        logger.out("Last attempted backup was on {0}".format(self.conf.data["status"]["last"]))
+
+    def updateStatusLast(self):
+        date = datetime.date.today()
+        time = datetime.datetime.now()
+
+        self.conf.data["status"]["last"] = "{0} at {1}:{2}".format(date, time.hour, time.minute)
+        self.conf.save()
+
 
     def argsManifestSections(self):
         if self.args.section:

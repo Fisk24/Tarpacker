@@ -1,7 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [UNRELEASED] - 
+## [UNRELEASED] -
+
+### Changed
+- Tp can now keep track of when it was last used to create a backup.
+- Tp can now auto generate a config directory, a default manifest file, and a temp directory if such files do not already exist
+- Setup.sh was added to handle installing tarpacker on new systems! 
 
 ## [a0.0.2] - 2016-02-25  
 
