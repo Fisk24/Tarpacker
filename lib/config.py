@@ -4,13 +4,13 @@ class Config():
     def __init__(self, cfile):
         self.default = {
                 "conf_file":cfile,
-                "status": {
+                "status":{
                     "last":"Never"
                     },
-                "packing"  :{
+                "packing":{
                     "location":"/home/fisk/BKUP-{date}"
                     },
-                "manifest" :{
+                "manifest":{
                     "file" :"/home/{user}/.config/tarpacker/manifest.mf".format(user=getpass.getuser())
                     },
                 "ssh":{

@@ -33,7 +33,8 @@ unpacking.add_argument("--off-site", "-s", action="store", help="####NOT IMPLEME
 unpacking.add_argument("--verbose", "-v", action="store_true", help="Prints debuging information...")
 
 config = subparser.add_parser("config")
-config.add_argument("key", action="store", help="Configuration key to target. Syntax is {key=value} of {key}. If no value is passed then the targeted key is printed instead of edited.")
+config.add_argument("--set", metavar="KEY VALUE", nargs="+", action="store", help="Sets a configuration key to a given value. Syntax is \"{key} {value}\". Eg. \"manifest.file path/to/file\"")
+config.add_argument("--get", metavar="KEY", action="store", help="Retrive the given configuration value and then display it.")
 config.add_argument("--list", "-l", action="store_true", help="List every available key and its value")
 config.add_argument("--verbose", "-v", action="store_true", help="Prints debuging information...")
 

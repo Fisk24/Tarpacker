@@ -16,15 +16,15 @@ class TarPacker():
         setup = Setup()
         # determine the mode and run proper function
         if args.subparser_name == "status":
-            Status(args)
+            Status(args, setup)
         elif args.subparser_name == "manifest":
-            Manifest(args)
+            Manifest(args, setup)
         elif args.subparser_name == "pack":
             Pack(args, setup)
         elif args.subparser_name == "unpack":
-            Unpack(args)
+            Unpack(args, setup)
         elif args.subparser_name == "config":
-            Config(args)
+            Config(args, setup)
         else:
             print("\nPlease pick a mode. Use --help for assistance\n")
 
