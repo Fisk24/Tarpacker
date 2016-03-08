@@ -5,7 +5,7 @@ class Setup():
         self.configdir   = "/home/{0}/.config/tarpacker".format(getpass.getuser())
         self.archivedir  = self.configdir+"/tmparchives"
         self.manifestdir = self.configdir+"/manifest.mf"
-        self.manTemplate = '''[misc]'''
+        self.manTemplate = '''[misc]\n{mdir}'''.format(mdir=self.manifestdir)
         
         if not os.path.isdir(self.configdir):
             self.createConfigDir()

@@ -1,0 +1,17 @@
+,/home/fisk/.config/Epic/  #Should be: Epic, /home/fisk/.config/
+,/home/fisk/.config/desmume/
+,/home/fisk/.config/dolphin-emu/
+,/home/fisk/.local/share/dolphin-emu/
+,/home/fisk/.local/share/DustAET/
+,/home/fisk/.local/share/Psychonauts/
+,/home/fisk/.config/mupen64plus/
+,/home/fisk/.local/share/mupen64plus/
+,/home/fisk/.config/unity3d/
+,/home/fisk/.minecraft/
+,/home/fisk/.zsnes/
+,/home/fisk/Games/.minecraft/
+,/home/fisk/Games/Emulators/
+,/home/fisk/Games/EMUSAVES/
+,/home/fisk/Games/Halo/
+,/home/fisk/Games/SteamLaunchers/
+Emulators.txt,/home/fisk/Games/ # This is correct!

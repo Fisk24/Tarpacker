@@ -40,7 +40,7 @@ class Pack():
         folders  = 0
         archives = 0
         for section in self.manifest.data:
-            if self.args.section and (section in self.listManifestSections()):
+            if section in self.listManifestSections():
                 archives += 1
                 for i in self.manifest.data[section]:
                     if os.path.isdir(i):
@@ -63,7 +63,7 @@ class Pack():
             # check if archive file is in the way
             tarname = "{tar}.tar.gz".format(tar=section) 
             tarpath = self.tmpdir+tarname
-            if self.args.section and (section in self.listManifestSections()):
+            if section in self.listManifestSections():
                 if self.askOverwrite(self.migrate+tarname):
                     with tarfile.open(tarpath, "w:gz") as tar:
                         # for every file listed under the given section, add the file to the tarball
@@ -167,9 +167,16 @@ class Pack():
             return True
 
     def listManifestSections(self):
-        # initial unsanitized sections list
-        x = self.args.section.split(",")
-        # sanitized sections list
+        if self.args.section:
+            # initial unsanitized sections list
+            x = self.args.section.split(",")
+            # sanitized sections list
+        else:
+            # If --section was not passed, use the manifest object to populate instead
+            x = []
+            for i in self.manifest.data:
+                x.append(i)
+
         y = []
 
         for i in x:
@@ -207,3 +214,9 @@ class Pack():
             return ManifestParser(self.args.man)
         else:
             return ManifestParser(self.conf.data["manifest"]["file"])
+
+    def argsVerbose(self):
+        if self.args.verbose:
+            return True
+        else:
+            return False
