@@ -39,7 +39,7 @@ def out(tex, wrt=True, file=logname, doTime=True):
                 log.write(text+"\n")
             
     except Exception as e:
-        print("Error in logger.out()... Something unforseen fucked up!")
+        print("Error in logger.out()... Something unforeseen fucked up!")
         print(e)
 
 def report(file=logname):

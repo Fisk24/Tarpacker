@@ -34,7 +34,7 @@ class Pack():
 
     def calculateTotalSize(self):
         logger.out("Calculating totals...")
-        # Total files to be compressed accross all archives
+        # Total files to be compressed across all archives
         # Compressing X files and Y folders into Z archives
         files    = 0
         folders  = 0
