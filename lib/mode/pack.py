@@ -18,7 +18,7 @@ class Pack():
         # Directories
         self.setup   = setup
         self.tmpdir  = self.setup.archivedir
-        self.extract = self.setup.archivedir+"/extraction.csv"
+        self.extract = self.setup.archivedir+"extraction.csv"
         self.migrate = self.setMigrationLocation()
 
         # Process
@@ -60,7 +60,7 @@ class Pack():
         for section in self.manifest.data:
             # for every section of the manifest create a new tarball named after the manifest section
             # if --section is passed, only backup section if it is specified
-            # check if archive file is in the way
+            # check if archive file is in the way (Overwrite?)
             tarname = "{tar}.tar.gz".format(tar=section) 
             tarpath = self.tmpdir+tarname
             if section in self.listManifestSections():
@@ -68,10 +68,16 @@ class Pack():
                     with tarfile.open(tarpath, "w:gz") as tar:
                         # for every file listed under the given section, add the file to the tarball
                         logger.out("Created new tar archive: {0}".format(tarpath))
+                        self.createExtractionManifest()
                         for item in self.manifest.data[section]:
                             meta = self.createItemMetadata(item)
-                            self.addTarItem(tar, item, meta)
-                            self.addMetadata(item, meta)
+                            # Only add try to add the item to the tarball if it exists, 
+                            # otherwise inform the user of the non-existent entry
+                            if os.path.isfile(item) or os.path.isdir(item):
+                                self.addTarItem(tar, item, meta)
+                                self.addMetadata(item, meta)
+                            else:
+                                logger.out("\"{i}\" was not added because it apperently dosen't exist...".format(i=item))
 
                         self.addExtractionManifest(tar)
             
@@ -88,6 +94,10 @@ class Pack():
         logger.out("Moving archive {temp} to {dest}".format(temp=old, dest=new))
         self.createFolderSafely(self.migrate)
         shutil.move(old, new)
+
+    def createExtractionManifest(self):
+        with open(self.extract, 'w') as ext:
+            ext.write("")
 
     def addExtractionManifest(self, tarball):
         # add extraction manifest file to the archive and delete the original file

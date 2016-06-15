@@ -3,7 +3,7 @@ import os, getpass
 class Setup():
     def __init__(self):
         self.configdir   = "/home/{0}/.config/tarpacker".format(getpass.getuser())
-        self.archivedir  = self.configdir+"/tmparchives"
+        self.archivedir  = self.configdir+"/tmparchives/"
         self.manifestdir = self.configdir+"/manifest.mf"
         self.manTemplate = '''[misc]\n{mdir}'''.format(mdir=self.manifestdir)
         
