@@ -88,6 +88,10 @@ class Pack():
         logger.out("Finished!")
         self.updateStatusLast()
 
+    def cleanManifestEntry(self):
+        # Fix potentialy problematic manifest entries
+        pass
+
     def migrateArchive(self, src):
         old = self.tmpdir+src
         new = self.migrate+src
@@ -117,9 +121,16 @@ class Pack():
             man.write(x)
 
     def createItemMetadata(self, item):
-        name = item.split("/")[-1]
+        # generate the data required for extraction manifest creation
+        # {file/dir}, {path/to/file/dir}
+        # remove any "/" from the end of item file paths
+        if item[-1] == "/":
+            x = item[:-1]
+        else:
+            x = item
+        name = x.split("/")[-1]
         path = ""
-        for i in item.split("/")[0:-1]:
+        for i in x.split("/")[0:-1]:
             path += i+"/"
 
         return [name, path]
