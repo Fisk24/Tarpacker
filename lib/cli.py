@@ -20,7 +20,7 @@ manifest.add_argument("--verbose", "-v", action="store_true", help="Prints debug
 packing = subparser.add_parser("pack")
 packing.add_argument("--man", "-m", action="store", help="Specifies manifest file to be loaded. Overrides value in the config file.")
 packing.add_argument("--location", "-l", action="store", help="Specifies directory to place archive files. Overrides value in the config file.")
-packing.add_argument("--section", action="store", help="List specific sections from the manifest to backup. Specify multiple sections by seperating them with commas. Eg. \"Section1, Section2, Section3\"")
+packing.add_argument("--section", action="store", help="List specific sections from the manifest to backup. Specify multiple sections by separating them with commas. Eg. \"Section1, Section2, Section3\"")
 packing.add_argument("--off-site", action="store_true", help="####NOT IMPLEMENTED#### Specify whether of not to send archive files to a server through ssh protocol.")
 packing.add_argument("--server", action="store", help="Specify which server should be used as off-site upload location. Overrides value in config.")
 packing.add_argument("--verbose", "-v", action="store_true", help="Prints debuging information...")
