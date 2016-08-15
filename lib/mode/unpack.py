@@ -1,4 +1,4 @@
-import tarfile, sys, os
+import tarfile, sys, os, csv, shutil
 from lib        import logger
 from lib.config import Config
 
@@ -15,13 +15,35 @@ class Unpack():
         self.tmpdir  = self.setup.archivedir
         self.extract = self.setup.archivedir+"extraction.csv"
 
-        print(self.args)
+        #print(self.args)
         logger.tear()
+        logger.out(self.args, 0)
         logger.out("Started unpacking mode...")
         self.argsCheckInFile()
         self.printArchiveMembers()
         if self.askYesNo("Continue?"):
             self.extractArchive()
+            self.moveExtractedFiles()
+
+    def moveExtractedFiles(self):
+        if os.path.isfile(self.extract):
+            self.extractUsingManifest() 
+        else:
+            logger.out("[ WARN ] No extraction manifest detected! Files will be extracted into the current directory.")
+
+    def extractUsingManifest(self):
+        try:
+            with open(self.extract, mode='r', newline='\n') as csvFile:
+                csvData = csv.reader(csvFile, delimiter=',')
+                for row in csvData:
+                    shutil.move(self.tmpdir+row[0], row[1])
+        except shutil.Error as e:
+            logger.out(e)
+
+    def extractArchive(self):
+        archive = self.args.in_file
+        with tarfile.open(archive, "r|*") as tar:
+            tar.extractall(path=self.tmpdir)
 
     def printArchiveMembers(self):
         members = []
@@ -33,11 +55,6 @@ class Unpack():
 
         logger.out("{0} files are ready for extraction.".format(len(members)))
                 
-    def extractArchive(self):
-        archive = self.args.in_file
-        with tarfile.open(archive, "r|*") as tar:
-            tar.extractall(path=self.tmpdir)
-
     def argsCheckInFile(self):
         if not self.args.in_file:
             logger.out("What am I unpacking? Do \"tp unpack -if [archive]\"")
