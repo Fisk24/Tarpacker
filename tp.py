@@ -1,6 +1,5 @@
 #! /usr/bin/python3
 
-import os
 from lib.cli   import *
 
 from lib               import logger
@@ -27,10 +26,20 @@ class TarPacker():
                 Unpack(args, setup)
             elif args.subparser_name == "config":
                 Config(args, setup)
+            elif args.version: 
+                self.getVersionInfo()
             else:
                 print("\nPlease pick a mode. Use --help for assistance\n")
         except:
             logger.report()
+
+    def getVersionInfo(self):
+        import sys, subprocess
+        output = subprocess.check_output(["git","rev-list","HEAD","--count"]).decode("utf-8")
+        gitcount = output.replace("\n", "")
+        print("Tarpacker Version: git [{ver}]".format(ver=gitcount))
+        print("Running on Python: {ver}".format(ver=sys.version))
+
 
 if __name__ == "__main__":
     main = TarPacker()

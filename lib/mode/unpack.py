@@ -29,7 +29,7 @@ class Unpack():
         if os.path.isfile(self.extract):
             self.extractUsingManifest() 
         else:
-            logger.out("[ WARN ] No extraction manifest detected! Files will be extracted into the current directory.")
+            logger.out("[ WARN ] No extraction manifest detected! Aborting.")
 
     def extractUsingManifest(self):
         try:

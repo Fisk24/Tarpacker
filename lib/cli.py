@@ -7,6 +7,8 @@ subparser = parser.add_subparsers(dest="subparser_name")
 
 status = subparser.add_parser("status")
 
+parser.add_argument("--version", action="store_true", help="Display version information")
+
 manifest = subparser.add_parser("manifest")
 manifest.add_argument("--add", "-A", action="store", help="Add a file to the manifest. Format is {file:group}. Group must be preexisting, use -f to auto-add an unknown group or -g to add the group before hand.")
 manifest.add_argument("--force", "-f", action="store_true", help="Forcefuly add a file to an unknown group by first creating the unknown group and then adding the file to it")
