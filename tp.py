@@ -15,6 +15,7 @@ class TarPacker():
         try:
             # Try first time setup
             setup = Setup()
+            self.getVersionInfo()
             # determine the mode and run proper function
             if args.subparser_name == "status":
                 Status(args, setup)
@@ -27,7 +28,7 @@ class TarPacker():
             elif args.subparser_name == "config":
                 Config(args, setup)
             elif args.version: 
-                self.getVersionInfo()
+                pass
             else:
                 print("\nPlease pick a mode. Use --help for assistance\n")
         except:
