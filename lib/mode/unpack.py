@@ -1,3 +1,9 @@
+"""
+TODO:
+    make it so that askYesNo can ask multiple times in case of a typo in the responce
+    perhaps a limit on the number of trys that the user has, can also be implimented
+"""
+
 import tarfile, sys, os, csv, shutil
 from distutils.dir_util import copy_tree
 from lib        import logger
