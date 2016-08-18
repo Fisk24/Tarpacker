@@ -19,11 +19,15 @@ class Unpack():
         logger.tear()
         logger.out(self.args, 0)
         logger.out("Started unpacking mode...")
+        self.warnNoAsk()
         self.argsCheckInFile()
         self.printArchiveMembers()
         if self.askYesNo("Continue?"):
             self.extractArchive()
             self.moveExtractedFiles()
+
+    def moveFiles(self, src, dst):
+        pass
 
     def moveExtractedFiles(self):
         if os.path.isfile(self.extract):
@@ -36,7 +40,7 @@ class Unpack():
             with open(self.extract, mode='r', newline='\n') as csvFile:
                 csvData = csv.reader(csvFile, delimiter=',')
                 for row in csvData:
-                    shutil.move(self.tmpdir+row[0], row[1])
+                    moveFiles(self.tmpdir+row[0], row[1])
         except shutil.Error as e:
             logger.out(e)
 
@@ -54,6 +58,10 @@ class Unpack():
                 logger.out(i)
 
         logger.out("{0} files are ready for extraction.".format(len(members)))
+
+    def warnNoAsk(self):
+        if self.args.noask:
+            logger.out("### WARNING NOASK FLAG HAS BEEN PASSED. SKIPPING ALL QUESTIONS ###")
                 
     def argsCheckInFile(self):
         if not self.args.in_file:
@@ -61,14 +69,18 @@ class Unpack():
             os._exit(1)
 
     def askYesNo(self, msg="Are you sure?", yes="yes", no="no"):
-        opt = input("{0} [{1}/{2}]:".format(msg, yes, no))
-        if opt == yes:
-            logger.out("User answered {0} to \"{1}\"".format(yes, msg), 0)
-            return 1
-        if opt == no:
-            logger.out("User answered {0} to \"{1}\"".format(no, msg), 0)
-            return 0
+        if not self.args.noask:
+            opt = input("{0} [{1}/{2}]:".format(msg, yes, no))
+            if opt == yes:
+                logger.out("User answered {0} to \"{1}\"".format(yes, msg), 0)
+                return 1
+            if opt == no:
+                logger.out("User answered {0} to \"{1}\"".format(no, msg), 0)
+                return 0
+            else:
+                print("You need to answer \"{0}\" or \"{1}\"".format(yes, no))
+                logger.out("User failed to give a proper answer to \"{0}\"".format(msg), 0)
+                return 0
         else:
-            print("You need to answer \"{0}\" or \"{1}\"".format(yes, no))
-            logger.out("User failed to give a proper answer to \"{0}\"".format(msg), 0)
-            return 0
+            logger.out("[ WARN ] Question skipped in NOASK mode...")
+            return 1

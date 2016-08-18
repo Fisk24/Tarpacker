@@ -33,6 +33,7 @@ unpacking.add_argument("--in-file", "-if", action="store", help="Specifies the a
 unpacking.add_argument("--location-override", "-lo", action="store", help="Not recommended for batch extractions! Specifies a root directory to unpack all files and subdirectories into. This value will override the archive's root extraction location")
 unpacking.add_argument("--off-site", "-s", action="store", help="####NOT IMPLEMENTED#### Specifies a server to download archive files from. This must be a full file path. Eg: user@server.com/path/to/archive.tar.gz")
 unpacking.add_argument("--verbose", "-v", action="store_true", help="Prints debuging information...")
+unpacking.add_argument("--noask", action="store_true", help="Skip every question, answering in the affermative.")
 
 config = subparser.add_parser("config")
 config.add_argument("--set", metavar="KEY VALUE", nargs="+", action="store", help="Sets a configuration key to a given value. Syntax is \"{key} {value}\". Eg. \"manifest.file path/to/file\"")
