@@ -1,4 +1,5 @@
 import tarfile, sys, os, csv, shutil
+from distutils.dir_util import copy_tree
 from lib        import logger
 from lib.config import Config
 
@@ -26,21 +27,45 @@ class Unpack():
             self.extractArchive()
             self.moveExtractedFiles()
 
-    def moveFiles(self, src, dst):
-        pass
+    def moveFilesSafely(self, item, target):
+        # copy file using shutil.move(), potentialy overwriting existing files, and creating directories as needed
+        try:
+            # Check if copying would result in overwriting files. if so, ask the user if it is ok to overwrite.
+            if (os.path.isdir(target+item) or os.path.isfile(target+item)):
+                #if the user answers no, return so as to avoid moving the files
+                if not self.askYesNo(msg="The file or directory \"{path}\" exists!/nWould you like to overwrite it?".format(path=target+item)):
+                    logger.out("[ INFO ] Item skipped...")
+                    return
+            if os.path.isdir(self.tmpdir+item):
+                copy_tree(self.tmpdir+item, target+item, verbose=1)
+                shutil.rmtree(self.tmpdir+item)
+            elif os.path.isfile(self.tmpdir+item):
+                shutil.copy2(self.tmpdir+item, target+item)
+                os.remove(self.tmpdir+item)
+        except FileNotFoundError as e:
+            logger.out("[ FATAL ] {}".format(e))
+            os._exit(1)
 
     def moveExtractedFiles(self):
+        # move extracted files from the temporary directory 
+        # into the location specified in the extraction manifest
         if os.path.isfile(self.extract):
+            # if the exctraction manifest exists, then extract according to its contents
             self.extractUsingManifest() 
         else:
-            logger.out("[ WARN ] No extraction manifest detected! Aborting.")
+            # otherwise abort
+            logger.out("[ ERROR ] No extraction manifest detected! Aborting.")
 
     def extractUsingManifest(self):
+        # open the extraction manifest and...
         try:
             with open(self.extract, mode='r', newline='\n') as csvFile:
                 csvData = csv.reader(csvFile, delimiter=',')
                 for row in csvData:
-                    moveFiles(self.tmpdir+row[0], row[1])
+                    # for every item found there in, copy the file from the temp directory 
+                    # to the one contained in the current itteration of the for loop
+                    # the extraction manifest data structure is: 0:child_file, 1:target_directory
+                    self.moveFilesSafely(row[0], row[1])
         except shutil.Error as e:
             logger.out(e)
 
