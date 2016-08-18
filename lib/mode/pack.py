@@ -1,3 +1,9 @@
+"""
+TODO:
+    except FileNotFoundError for missing manifests, especially ones from the man flag
+    except FileNotFoundError for missing backup locations, especially ones from the location flag
+"""
+
 import os, shutil, tarfile, datetime
 from lib        import logger
 from lib.config import Config
