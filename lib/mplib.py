@@ -56,7 +56,7 @@ class ManifestParser():
                     self.comments.append([lines.index(line), line.strip("\n")])
 
                 else:
-                    self.data[currentKey].append(line.strip("\n"))
+                    self.data[currentKey].append(line.strip(" ").strip("\n"))
 
     def info(self):
         logger.out("#==== Mainfest Info ====#")
